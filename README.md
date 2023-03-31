@@ -47,3 +47,16 @@ oc create -f https://raw.githubusercontent.com/savitaashture/unicredit/main/exam
     
     * Pipelines as Code
     * Triggers
+
+### Pipelines as Code
+Lets see how  we can use PAC to run workloads dynamically
+
+1. PAC installed while installing OSP
+
+    * Follow [Installation Doc](https://pipelinesascode.com/docs/install/installation/) to tweek the installation
+
+2. Lets make use of GithubApp
+
+    * To configure GithubApp for your repository [follow](https://pipelinesascode.com/docs/install/github_apps/)
+
+
