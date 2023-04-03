@@ -62,3 +62,21 @@ spec:
           - name: echo
             image: ubuntu
             script: 'echo file exists'
+    - name: read-file
+      runAfter: [echo-if-file-exists]
+      params:
+        - name: path
+          value: "$(params.path)"
+      taskSpec:
+        params:
+          - name: path
+            type: string
+        steps:
+          - name: read
+            image: ubuntu
+            script: cat $(workspaces.source.path)/$(params.path)
+        workspaces:
+          - name: source
+      workspaces:
+        - name: source
+          workspace: shared-workspace
