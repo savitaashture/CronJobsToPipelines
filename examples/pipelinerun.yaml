@@ -1,10 +1,10 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  generateName: unicredit-demo-pipeline-
+  generateName: demo-pipeline-
 spec:
   pipelineRef:
-    name: "unicredit-demo-pipeline"
+    name: "demo-pipeline"
   params:
     - name: path
       value: "README.md"
