@@ -1,4 +1,4 @@
-apiVersion: tekton.dev/v1
+apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: "unicredit-demo-pipeline"
@@ -62,66 +62,3 @@ spec:
           - name: echo
             image: ubuntu
             script: 'echo file exists'
-    - name: read-file
-      runAfter: [echo-if-file-exists]
-      params:
-        - name: path
-          value: "$(params.path)"
-      taskSpec:
-        params:
-          - name: path
-            type: string
-        steps:
-          - name: read
-            image: ubuntu
-            script: cat $(workspaces.source.path)/$(params.path)
-        workspaces:
-          - name: source
-      workspaces:
-        - name: source
-          workspace: shared-workspace
-  finally:
-    # Cleanup workspace
-    - name: cleanup
-      taskRef:
-        name: cleanup-workspace
-      params:
-        - name: path
-          value: "$(params.path)"
-      workspaces:
-        - name: source
-          workspace: shared-workspace
-
-
-# finally and deleting the data
----
-apiVersion: tekton.dev/v1
-kind: Task
-metadata:
-  name: cleanup-workspace
-spec:
-  workspaces:
-    # Shared workspace where data stored
-    - name: source
-  params:
-    - name: path
-      type: string
-  steps:
-    - name: check-dir-exist
-      image: ubuntu
-      script: |
-        if [ ! -f "$(workspaces.source.path)/$(params.path)" ]; then
-          echo "Something went wrong and could not find data source under $(workspaces.source.path)/$(params.path)"
-          exit 1
-        fi
-    - name: cleanup-workspace
-      image: ubuntu
-      script: |
-        rm -rf $(workspaces.source.path)/$(params.path)
-    - name: verify-dir-has-gone
-      image: ubuntu
-      script: |
-        if [ -f "$(workspaces.source.path)/$(params.path)" ]; then
-          echo "Something went wrong cleaning up and the data source still exists under $(workspaces.source.path)/$(params.path)"
-          exit 1
-        fi
