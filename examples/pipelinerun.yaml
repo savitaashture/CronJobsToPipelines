@@ -6,8 +6,10 @@ spec:
   pipelineRef:
     name: "demo-pipeline"
   params:
-    - name: path
-      value: "README.md"
+    - name: filename
+      value: README.json
+    - name: url
+      value: https://api.npoint.io/e1ce6e7e3038ea97d6d9
   workspaces:
     - name: shared-workspace
       volumeClaimTemplate:
