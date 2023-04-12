@@ -93,4 +93,17 @@ spec:
       workspaces:
         - name: source
           workspace: shared-workspace
+    - name: done
+      runAfter:
+        - transform-data
+      taskSpec:
+        metadata: {}
+        spec: null
+        steps:
+          - image: registry.access.redhat.com/ubi9/ubi-micro
+            name: done
+            resources: {}
+            script: |
+              echo "Done with transforming json data to csv"
+              exit 0          
 
