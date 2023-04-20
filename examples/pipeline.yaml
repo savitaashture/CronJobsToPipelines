@@ -30,7 +30,14 @@ spec:
           value: "$(params.url)"
     - name: transform-data
       taskRef:
-        name: transform-data
+        resolver: git
+        params:
+          - name: url
+            value: https://github.com/savitaashture/CronJobsToPipelines
+          - name: pathInRepo
+            value: /examples/tasks/transform.yaml
+          - name: revision
+            value: main
       params:
         - name: filename
           value: "$(params.filename)"
